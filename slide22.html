@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI in Assessment Innovation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(1000px) rotateX(20deg);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .header-section {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 52px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(124, 58, 237, 0.5);
+        }
+
+        .title-accent {
+            color: var(--cyan);
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #94A3B8;
+            margin-top: 16px;
+            max-width: 900px;
+            border-left: 3px solid var(--purple);
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 20px 80px 40px 80px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            width: 100%;
+            padding: 0 80px
+        }
+
+        .assessment-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 32px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 240px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .assessment-card:hover {
+            transform: translateY(-8px);
+            border-color: currentColor;
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+        }
+
+        .theme-blue {
+            color: #FFF;
+            border-top: 6px solid #FFF;
+        }
+
+        .theme-purple {
+            color: var(--purple);
+            border-top: 6px solid var(--purple);
+        }
+
+        .theme-cyan {
+            color: var(--cyan);
+            border-top: 6px solid var(--cyan);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 19px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+
+        .note-box {
+            background-color: rgba(0, 240, 255, 0.05);
+            border-left: 4px solid var(--cyan);
+            padding: 20px 32px;
+            border-radius: 8px;
+            margin-top: 40px;
+            max-width: 800px;
+            align-self: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .note-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            color: #FFF;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .note-icon {
+            color: var(--cyan);
+            margin-right: 12px;
+            text-shadow: 0 0 10px var(--cyan);
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(124, 58, 237, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Tech label */
+        .tech-status {
+            position: absolute;
+            top: 30px;
+            right: 80px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--cyan);
+            letter-spacing: 2px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="tech-status">EVAL_MODEL_SYNC: ACTIVE // VER: 4.0.2</div>
+
+        <div class="header-section">
+            <span class="section-tag">[ASSESSMENT_PROTOCOL_DESIGN]</span>
+            <h1 class="main-title">AI IN <span class="title-accent">ASSESSMENT</span> INNOVATION</h1>
+            <p class="subtitle">Synthesizing high-frequency evaluation matrices for rigorous academic verification.</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="cards-grid">
+                <div class="assessment-card theme-blue">
+                    <div class="card-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="card-title">Rubric Synthesis</div>
+                    <p class="card-desc">Protocol: Generate hierarchical evaluation categories aligned with
+                        mission-critical learning learning vectors.</p>
+                </div>
+                <div class="assessment-card theme-purple">
+                    <div class="card-icon">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <div class="card-title">Exemplar Generation</div>
+                    <p class="card-desc">Synthetic Benchmarks: Create high-fidelity response variants at multiple
+                        proficiency levels for calibration.</p>
+                </div>
+                <div class="assessment-card theme-cyan">
+                    <div class="card-icon">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div class="card-title">Grading Framework</div>
+                    <p class="card-desc">Neural Safeguards: Initialize consistent evaluation structures and transparent
+                        scoring guides for logical parity.</p>
+                </div>
+            </div>
+
+            <div class="note-box">
+                <div class="note-text">
+                    <i class="fas fa-user-shield note-icon"></i>
+                    MANUAL_OVERRIDE: Faculty ensures high-fidelity rigor and systemic fairness.
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 33.33%; background-color: #FFF; box-shadow: 0 0 20px #FFF;"></div>
+            <div style="width: 33.33%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
+            <div style="width: 33.34%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

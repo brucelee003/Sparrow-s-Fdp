@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Reliability and Verification</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(1000px) rotateX(20deg);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .header-section {
+            padding: 60px 80px 30px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--cyan);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 56px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(0, 240, 255, 0.5);
+        }
+
+        .title-accent {
+            color: var(--magenta);
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #94A3B8;
+            margin-top: 16px;
+            max-width: 850px;
+            border-left: 3px solid var(--purple);
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 20px 80px 60px 80px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 60px
+        }
+
+        .principle-box {
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 50px;
+            border: 2px solid var(--cyan);
+            flex: 1;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.05);
+            text-align: center;
+        }
+
+        .principle-icon {
+            font-size: 72px;
+            color: var(--cyan);
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5));
+        }
+
+        .principle-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 800;
+            color: #FFF;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .principle-text {
+            font-size: 19px;
+            color: #E2E8F0;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .rules-container {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 24px
+        }
+
+        .rule-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-left: 6px solid var(--cyan);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .rule-card:hover {
+            transform: translateX(12px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--cyan);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+        }
+
+        .rule-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            background-color: rgba(0, 240, 255, 0.1);
+            color: var(--cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .rule-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFF;
+            line-height: 1.4;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Tech corner */
+        .corner-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-top: 3px solid var(--cyan);
+            border-left: 3px solid var(--cyan);
+            top: -5px;
+            left: -5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="header-section">
+            <span class="section-tag">[ACADEMIC_INTEGRITY_PROTOCOL]</span>
+            <h1 class="main-title">RELIABILITY & <span class="title-accent">VERIFICATION</span></h1>
+            <p class="subtitle">Implementing critical auditing practices to maintain scholarly standards within
+                neural-assisted research workflows.</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="principle-box">
+                <div class="corner-marker"></div>
+                <i class="fas fa-shield-halved principle-icon"></i>
+                <h2 class="principle-title">Audit Rule</h2>
+                <p class="principle-text">Sovereign Verification Required: Always cross-reference neural outputs before
+                    committing to scholarly records.</p>
+            </div>
+
+            <div class="rules-container">
+                <div class="rule-card">
+                    <div class="rule-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="rule-text">Cross-Reference Data Matrices</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-icon">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <div class="rule-text">Empirical Factual Validation</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-icon">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+                    <div class="rule-text">Zero-Trust Neural Authority</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 50%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+            <div style="width: 50%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

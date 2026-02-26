@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI for Teaching: Lesson Planning</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 0, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(255, 0, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(1000px) rotateX(20deg);
+            z-index: 0;
+        }
+
+        .header {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .title-container {
+            position: relative;
+            padding-left: 20px;
+            border-left: 6px solid var(--cyan);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: var(--cyan);
+            margin-top: 8px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .matrix-container {
+            flex: 1;
+            padding: 20px 80px 60px 80px;
+            display: flex;
+            gap: 32px;
+            z-index: 10;
+            align-items: stretch
+        }
+
+        .capability-column {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .capability-column:hover {
+            transform: translateY(-8px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: currentColor;
+        }
+
+        .col-tech {
+            color: var(--cyan);
+            border-top: 6px solid var(--cyan);
+        }
+
+        .col-biz {
+            color: #FFF;
+            border-top: 6px solid #FFF;
+        }
+
+        .col-lead {
+            color: var(--purple);
+            border-top: 6px solid var(--purple);
+        }
+
+        .col-header {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .icon-wrapper {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .col-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .col-desc {
+            font-size: 12px;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .capabilities-list {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px
+        }
+
+        .capability-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px
+        }
+
+        .check-icon {
+            margin-top: 4px;
+            font-size: 14px;
+            color: currentColor;
+            opacity: 0.8;
+        }
+
+        .capability-content {
+            flex: 1
+        }
+
+        .capability-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFF;
+            margin-bottom: 4px;
+        }
+
+        .capability-detail {
+            font-size: 13px;
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+
+        .bottom-note {
+            margin-top: auto;
+            padding: 16px 24px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #94A3B8;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Tech label */
+        .tech-label {
+            position: absolute;
+            top: 30px;
+            right: 80px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--purple);
+            letter-spacing: 4px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+        <div class="tech-label">SYLLABUS_GEN_ENGINE_V1.4</div>
+
+        <div class="header">
+            <div class="title-container">
+                <h1 class="main-title">AI for Teaching: Lesson Planning</h1>
+                <p class="subtitle">Neural Optimization of Instructional Design Architectures</p>
+            </div>
+        </div>
+
+        <div class="matrix-container">
+            <div class="capability-column col-tech">
+                <div class="col-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div>
+                        <div class="col-title">Structured Design</div>
+                        <div class="col-desc">Hierarchical Layouts</div>
+                    </div>
+                </div>
+                <div class="capabilities-list">
+                    <div class="capability-item">
+                        <i class="fas fa-microchip check-icon"></i>
+                        <div class="capability-content">
+                            <div class="capability-name">Lesson Generation</div>
+                            <div class="capability-detail">Create time-paced instruction modules with deterministic
+                                objectives and active logic paths.</div>
+                        </div>
+                    </div>
+                    <div class="capability-item">
+                        <i class="fas fa-microchip check-icon"></i>
+                        <div class="capability-content">
+                            <div class="capability-name">Outcome Projection</div>
+                            <div class="capability-detail">Define measurable learning vectors aligned with specific
+                                curricular metadata.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="capability-column col-biz">
+                <div class="col-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-bullseye-arrow"></i>
+                    </div>
+                    <div>
+                        <div class="col-title">Learning Outcomes</div>
+                        <div class="col-desc">Goal-Oriented Mapping</div>
+                    </div>
+                </div>
+                <div class="capabilities-list">
+                    <div class="capability-item">
+                        <i class="fas fa-code-branch check-icon"></i>
+                        <div class="capability-content">
+                            <div class="capability-name">Alignment Logic</div>
+                            <div class="capability-detail">Recursive mapping of learning goals to specific assessment
+                                matrices and triggers.</div>
+                        </div>
+                    </div>
+                    <div class="capability-item">
+                        <i class="fas fa-code-branch check-icon"></i>
+                        <div class="capability-content">
+                            <div class="capability-name">Bloom's Taxonomy</div>
+                            <div class="capability-detail">Integrate appropriate cognitive weightings based on audience
+                                profile metadata.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="capability-column col-lead">
+                <div class="col-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <div class="col-title">Assessment Logic</div>
+                        <div class="col-desc">Verification Layers</div>
+                    </div>
+                </div>
+                <div class="capabilities-list">
+                    <div class="capability-item">
+                        <i class="fas fa-shield-check check-icon"></i>
+                        <div class="capability-content">
+                            <div class="capability-name">Assessment Mapping</div>
+                            <div class="capability-detail">Ensure evaluation clusters effectively measure the defined
+                                neural learning outcomes.</div>
+                        </div>
+                    </div>
+                    <div class="capability-item">
+                        <i class="fas fa-shield-check check-icon"></i>
+                        <div class="capability-content">
+                            <div class="capability-name">Feedback Loops</div>
+                            <div class="capability-detail">Design iterative formative and summative auditing strategies
+                                for student performance.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-note">
+                    <i class="fas fa-user-shield" style="margin-right: 6px"></i>
+                    MANUAL_OVERRIDE: Educator verifies final matrix
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 33.33%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+            <div style="width: 33.33%; background-color: #FFF; box-shadow: 0 0 20px #FFF;"></div>
+            <div style="width: 33.34%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

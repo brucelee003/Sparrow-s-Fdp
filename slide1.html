@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI as an Intellectual Partner in Teaching and Research</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(255, 0, 255, 0.1);
+        }
+
+        /* Hacker Background Patterns */
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(255, 0, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .bg-poly {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(2px);
+        }
+
+        .left-panel {
+            flex: 1.2;
+            padding: 80px 0 80px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-panel {
+            flex: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .accent-line {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--magenta), var(--cyan));
+            margin-bottom: 32px;
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--magenta);
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 72px;
+            font-weight: 800;
+            line-height: 0.95;
+            color: #FFF;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5), -2px -2px 0px rgba(0, 240, 255, 0.5);
+        }
+
+        .title-highlight {
+            color: var(--magenta);
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 26px;
+            font-weight: 300;
+            color: var(--cyan);
+            margin-bottom: 48px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .tagline-box {
+            background-color: rgba(255, 0, 255, 0.05);
+            border-left: 4px solid var(--magenta);
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            max-width: 580px;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+        }
+
+        .tagline-text {
+            color: #E2E8F0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .tagline-highlight {
+            color: var(--cyan);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 18px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 480px;
+            height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image {
+            width: 440px;
+            height: 440px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.3);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            position: relative;
+            z-index: 2;
+            filter: contrast(1.1) brightness(0.9) saturate(1.2);
+        }
+
+        .tech-decoration {
+            position: absolute;
+            border: 1px solid var(--cyan);
+            width: 460px;
+            height: 460px;
+            border-radius: 12px;
+            top: 20px;
+            left: 40px;
+            z-index: 1;
+            opacity: 0.4;
+            animation: pulse 4s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.02);
+            }
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: var(--magenta);
+            opacity: 0.1;
+            font-size: 140px;
+            top: 40px;
+            right: 40px;
+            z-index: 0;
+            filter: blur(2px);
+        }
+
+        .presenter-info {
+            position: absolute;
+            bottom: 40px;
+            left: 80px;
+            color: #94A3B8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .presenter-info span {
+            color: var(--magenta);
+            font-weight: 700;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="bg-poly"></div>
+        <div class="scanline"></div>
+        <i class="fas fa-microchip floating-icon"></i>
+
+        <div class="content-wrapper">
+            <div class="left-panel">
+                <div class="accent-line"></div>
+                <h1 class="main-title">
+                    Artificial<br />
+                    <span class="title-highlight">Intelligence</span><br />
+                    as Partner
+                </h1>
+                <p class="subtitle">&gt;_ TEACHING &amp; RESEARCH</p>
+                <div class="tagline-box">
+                    <span class="tagline-highlight">Session Overview</span>
+                    <p class="tagline-text">Augmenting human intelligence through high-performance AI integration.
+                        Exploring the frontier of academic innovation while maintaining cryptographic-level integrity.
+                    </p>
+                </div>
+                <div class="presenter-info">
+                    Harish M | WeLe Intelitech | 28/02/2026
+                </div>
+            </div>
+            <div class="right-panel">
+                <div class="hero-image-container">
+                    <div class=""></div>
+                    <img alt="AI Neural Network Structure" class="hero-image"
+                        src="https://sfile.chatglm.cn/images-ppt/92714cd2242a.jpg" />
+
+
+                    <div
+                        style="position: absolute; top: -10px; left: -10px; width: 60px; height: 60px; border-top: 4px solid var(--magenta); border-left: 4px solid var(--magenta); box-shadow: -5px -5px 15px rgba(255, 0, 255, 0.5);">
+                    </div>
+                    <div
+                        style="position: absolute; bottom: -10px; right: -10px; width: 60px; height: 60px; border-bottom: 4px solid var(--cyan); border-right: 4px solid var(--cyan); box-shadow: 5px 5px 15px rgba(0, 240, 255, 0.5);">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bar -->
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 50%; background-color: var(--magenta); box-shadow: 0 0 20px var(--magenta);"></div>
+            <div style="width: 50%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

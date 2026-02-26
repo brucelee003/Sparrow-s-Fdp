@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>From Tool to Thinking Partner</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(255, 0, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(255, 0, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .bg-poly {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(2px);
+        }
+
+        .left-section {
+            flex: 1.4;
+            padding: 60px 50px 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-section {
+            flex: 1;
+            background-color: rgba(5, 5, 5, 0.6);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255, 0, 255, 0.2);
+            padding: 60px 60px 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--magenta);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+
+        .section-tag::before {
+            content: ">_";
+            margin-right: 8px;
+            color: var(--cyan);
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 52px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin-bottom: 32px;
+            text-shadow: 2px 2px 0px rgba(255, 0, 255, 0.5), -2px -2px 0px rgba(0, 240, 255, 0.5);
+        }
+
+        .definition-box {
+            background-color: rgba(0, 240, 255, 0.03);
+            border-left: 4px solid var(--cyan);
+            padding: 24px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.05);
+        }
+
+        .definition-text {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #E2E8F0;
+        }
+
+        .highlight-magenta {
+            color: var(--magenta);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+        }
+
+        .highlight-cyan {
+            color: var(--cyan);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        .comparison-header {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 1px;
+        }
+
+        .comparison-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-item:hover {
+            border-color: var(--magenta);
+            background-color: rgba(255, 0, 255, 0.03);
+            transform: translateX(10px);
+        }
+
+        .comp-left {
+            flex: 1;
+            font-size: 16px;
+            color: #94A3B8;
+        }
+
+        .comp-arrow {
+            margin: 0 20px;
+            color: var(--magenta);
+            text-shadow: 0 0 10px var(--magenta);
+        }
+
+        .comp-right {
+            flex: 1;
+            font-size: 16px;
+            color: var(--cyan);
+            font-weight: 700;
+            text-align: right;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        .right-header {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--magenta);
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .challenge-card {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .challenge-card:hover {
+            background-color: rgba(124, 58, 237, 0.05);
+            border-color: var(--purple);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.15);
+        }
+
+        .challenge-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--purple);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.2);
+        }
+
+        .challenge-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 8px;
+        }
+
+        .challenge-desc {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        .glitch-corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-top: 3px solid var(--magenta);
+            border-left: 3px solid var(--magenta);
+            top: 20px;
+            left: 20px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="bg-poly"></div>
+        <div class="scanline"></div>
+
+        <div class="content-wrapper">
+            <div class="left-section">
+                <div class="glitch-corner"></div>
+                <div class="section-tag">Evolution</div>
+                <h1 class="main-title">From Tool to Thinking Partner</h1>
+                <div class="definition-box">
+                    <p class="definition-text">
+                        Technology served as <span class="highlight-magenta">storage &amp; automation</span> in the
+                        past, while
+                        <span class="highlight-cyan">AI</span> provides <span class="highlight-magenta">reasoning &amp;
+                            idea support</span> today.
+                    </p>
+                </div>
+                <div>
+                    <div class="comparison-header">
+                        <i class="fas fa-microchip" style="margin-right: 12px; color: var(--magenta)"></i>
+                        SYTEM UPGRADE: THE ACADEMIC SHIFT
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comp-left">Efficiency Focus</div>
+                        <div class="comp-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="comp-right">Intellectual Collaboration</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comp-left">Task Automation</div>
+                        <div class="comp-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="comp-right">Cognitive Enhancement</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comp-left">Supportive Tool</div>
+                        <div class="comp-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="comp-right">Thinking Partner</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <h2 class="right-header">AI-PROTOCOL: PARTNER</h2>
+                <div class="challenge-card">
+                    <div class="challenge-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="challenge-title">Idea Generation</h3>
+                    <p class="challenge-desc">Brainstorms hypotheses and suggests multiple explanations to spark
+                        creativity.</p>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-icon"
+                        style="color: var(--cyan); border-color: var(--cyan); background: rgba(0, 240, 255, 0.1); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="challenge-title">Dialogue &amp; Reasoning</h3>
+                    <p class="challenge-desc">Engages in collaborative thinking, offering alternative viewpoints and
+                        perspectives.</p>
+                </div>
+                <div class="challenge-card">
+                    <div class="challenge-icon"
+                        style="color: var(--magenta); border-color: var(--magenta); background: rgba(255, 0, 255, 0.1); box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3 class="challenge-title">Structure &amp; Clarity</h3>
+                    <p class="challenge-desc">Helps organize complex ideas and provides structured frameworks for
+                        analysis.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 50%; background-color: var(--magenta); box-shadow: 0 0 20px var(--magenta);"></div>
+            <div style="width: 50%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

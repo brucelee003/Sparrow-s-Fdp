@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Core AI Capabilities in Academia</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 0, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(255, 0, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .header-section {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--magenta);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 56px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(255, 0, 255, 0.5), -2px -2px 0px rgba(0, 240, 255, 0.5);
+        }
+
+        .title-accent {
+            color: var(--cyan);
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #94A3B8;
+            margin-top: 16px;
+            max-width: 850px;
+            border-left: 3px solid var(--purple);
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 40px 60px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            width: 100%
+        }
+
+        .resp-card {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 32px 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: 320px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .resp-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--magenta);
+            background-color: rgba(255, 0, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.15);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 26px;
+            background: rgba(255, 0, 255, 0.1);
+            color: var(--magenta);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+        }
+
+        .resp-card:nth-child(even) .card-icon {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--cyan);
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 17px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 16px;
+            line-height: 1.3;
+            letter-spacing: 0.5px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: #94A3B8;
+            line-height: 1.6;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        .glitch-text {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--cyan);
+            opacity: 0.3;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="header-section">
+            <span class="section-tag">AI Capabilities</span>
+            <h1 class="main-title">CORE <span class="title-accent">CAPABILITIES</span> <span
+                    style="font-size: 24px; color: var(--magenta); opacity: 0.6;">[v1.2]</span></h1>
+            <p class="subtitle">Five fundamental AI capabilities transforming teaching and research in academia.</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="cards-grid">
+                <div class="resp-card">
+                    <div class="card-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="card-title">NLP (Language)</div>
+                    <p class="card-desc">Understands and generates human language for high-bandwidth communication and
+                        analysis.</p>
+                    <div class="glitch-text">CORE_01</div>
+                </div>
+                <div class="resp-card">
+                    <div class="card-icon">
+                        <i class="fas fa-fingerprint"></i>
+                    </div>
+                    <div class="card-title">Pattern<br />Recognition</div>
+                    <p class="card-desc">Identifies complex patterns and non-linear trends across massive datasets and
+                        documents.</p>
+                    <div class="glitch-text">CORE_02</div>
+                </div>
+                <div class="resp-card">
+                    <div class="card-icon">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <div class="card-title">Content<br />Generation</div>
+                    <p class="card-desc">Creates high-fidelity summaries, reports, drafts, and adaptive educational
+                        materials.</p>
+                    <div class="glitch-text">CORE_03</div>
+                </div>
+                <div class="resp-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-title">Data<br />Analysis</div>
+                    <p class="card-desc">Processes and interprets quantitative and qualitative data with cryptographic
+                        precision.</p>
+                    <div class="glitch-text">CORE_04</div>
+                </div>
+                <div class="resp-card">
+                    <div class="card-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div class="card-title">Idea<br />Structuring</div>
+                    <p class="card-desc">Organizes complex conceptual frameworks for maximum clarity and logical
+                        coherence.</p>
+                    <div class="glitch-text">CORE_05</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 33.33%; background-color: var(--magenta); box-shadow: 0 0 20px var(--magenta);"></div>
+            <div style="width: 33.33%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+            <div style="width: 33.34%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Academic Integrity</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(1000px) rotateX(20deg);
+            z-index: 0;
+        }
+
+        .header-section {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 52px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(0, 240, 255, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #94A3B8;
+            margin-top: 16px;
+            max-width: 900px;
+            border-left: 3px solid var(--purple);
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 20px 80px 40px 80px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+            padding: 0 40px
+        }
+
+        .integrity-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 32px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 320px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .integrity-card:hover {
+            transform: translateY(-12px);
+            border-color: currentColor;
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+        }
+
+        .theme-cyan {
+            color: var(--cyan);
+            border-top: 6px solid var(--cyan);
+        }
+
+        .theme-purple {
+            color: var(--purple);
+            border-top: 6px solid var(--purple);
+        }
+
+        .theme-magenta {
+            color: var(--magenta);
+            border-top: 6px solid var(--magenta);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.6;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Hacker terminal output */
+        .terminal-output {
+            position: absolute;
+            bottom: 40px;
+            right: 80px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--cyan);
+            opacity: 0.3;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="terminal-output">
+            INTEGRITY_CHECK: PASSING...<br>
+            CORE_ANALYSIS: HUMAN_LED...<br>
+            VALIDATION_STATUS: SECURE...
+        </div>
+
+        <div class="header-section">
+            <span class="section-tag">[ACADEMIC_INTEGRITY_PROTOCOL]</span>
+            <h1 class="main-title">ACADEMIC INTEGRITY</h1>
+            <p class="subtitle">Enforcing scholarly standards and intellectual parity in the neural era.</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="cards-grid">
+                <div class="integrity-card theme-cyan">
+                    <div class="card-icon">
+                        <i class="fas fa-handshake-angle"></i>
+                    </div>
+                    <div class="card-title">Support ≠ Shortcut</div>
+                    <p class="card-desc">Protocol: AI is a logic-enhancing utility to optimize learning and research
+                        cycles, not a replacement for fundamental intellectual input or pedagogical bypass.</p>
+                </div>
+                <div class="integrity-card theme-purple">
+                    <div class="card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="card-title">Human Primacy</div>
+                    <p class="card-desc">Mission: Individual intellectual contribution must remain the dominant vector.
+                        AI assist is high-frequency, but core analysis and insights are human-proprietary.</p>
+                </div>
+                <div class="integrity-card theme-magenta">
+                    <div class="card-icon">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <div class="card-title">Legacy Policies</div>
+                    <p class="card-desc">Audit: Standard academic integrity and anti-plagiarism protocols maintain
+                        absolute persistence throughout all AI-assisted scholarly workflows.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 33.33%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+            <div style="width: 33.33%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
+            <div style="width: 33.34%; background-color: var(--magenta); box-shadow: 0 0 20px var(--magenta);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

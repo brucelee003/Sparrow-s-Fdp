@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Example: Weak vs Strong Prompt</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --red: #FF3131;
+            --green: #00FF99;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(1000px) rotateX(10deg);
+            z-index: 0;
+        }
+
+        .header-section {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 52px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 40px 80px 20px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            position: relative;
+            z-index: 10;
+            align-items: center;
+        }
+
+        .prompt-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 400px;
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .weak-card {
+            border-color: rgba(255, 49, 49, 0.3);
+        }
+
+        .strong-card {
+            border-color: rgba(0, 255, 153, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px
+        }
+
+        .icon-badge {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .weak-icon {
+            color: var(--red);
+            text-shadow: 0 0 10px var(--red);
+            border: 1px solid rgba(255, 49, 49, 0.3);
+        }
+
+        .strong-icon {
+            color: var(--green);
+            text-shadow: 0 0 10px var(--green);
+            border: 1px solid rgba(0, 255, 153, 0.3);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .weak-title {
+            color: var(--red);
+        }
+
+        .strong-title {
+            color: var(--green);
+        }
+
+        .prompt-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            line-height: 1.6;
+            flex: 1;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .weak-text {
+            color: #64748B;
+            border-left: 4px solid var(--red);
+        }
+
+        .strong-text {
+            color: #FFF;
+            border-left: 4px solid var(--green);
+        }
+
+        .vs-divider {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background-color: var(--bg-dark);
+            border: 2px solid var(--purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--purple);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 22px;
+            font-weight: 800;
+            z-index: 20;
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        .terminal-header {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .t-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="header-section">
+            <span class="section-tag">[OPTIMIZATION_COMPARISON]</span>
+            <h1 class="main-title">Weak vs. Strong Prompt</h1>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="prompt-card weak-card">
+                <div class="terminal-header">
+                    <div class="t-dot"></div>
+                    <div class="t-dot"></div>
+                    <div class="t-dot"></div>
+                </div>
+                <div class="card-header">
+                    <div class="icon-badge weak-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <div class="card-title weak-title">NULL_LOGIC</div>
+                </div>
+                <div class="prompt-text weak-text">
+                    &gt; "Explain AI."
+                </div>
+            </div>
+
+            <div class="vs-divider">VS</div>
+
+            <div class="prompt-card strong-card">
+                <div class="terminal-header">
+                    <div class="t-dot"></div>
+                    <div class="t-dot"></div>
+                    <div class="t-dot"></div>
+                </div>
+                <div class="card-header">
+                    <div class="icon-badge strong-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="card-title strong-title">HIGH_FIDELITY</div>
+                </div>
+                <div class="prompt-text strong-text">
+                    &gt; "Explain Artificial Intelligence to undergraduate students using real-world examples and a
+                    highly structured, hierarchical format."
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 50%; background-color: var(--red); box-shadow: 0 0 20px var(--red);"></div>
+            <div style="width: 50%; background-color: var(--green); box-shadow: 0 0 20px var(--green);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

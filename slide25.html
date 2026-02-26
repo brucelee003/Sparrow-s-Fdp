@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI in Scholarly Writing</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --indigo: #6366F1;
+            --red: #FF3131;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(1000px) rotateX(20deg);
+            z-index: 0;
+        }
+
+        .header-section {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 52px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(124, 58, 237, 0.5);
+        }
+
+        .title-accent {
+            color: var(--cyan);
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #94A3B8;
+            margin-top: 16px;
+            max-width: 900px;
+            border-left: 3px solid var(--purple);
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 20px 80px 40px 80px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%
+        }
+
+        .writing-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 32px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 280px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .writing-card:hover {
+            transform: translateY(-8px);
+            border-color: currentColor;
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+        }
+
+        .theme-blue {
+            color: #FFF;
+        }
+
+        .theme-purple {
+            color: var(--purple);
+        }
+
+        .theme-cyan {
+            color: var(--cyan);
+        }
+
+        .theme-indigo {
+            color: var(--indigo);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+
+        .warning-box {
+            background-color: rgba(255, 49, 49, 0.05);
+            border-left: 4px solid var(--red);
+            padding: 20px 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 40px;
+            max-width: 800px;
+            align-self: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .warning-icon {
+            color: var(--red);
+            font-size: 20px;
+            flex-shrink: 0;
+            text-shadow: 0 0 10px var(--red);
+        }
+
+        .warning-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            color: #FFF;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Tech frame indicators */
+        .tech-lines {
+            position: absolute;
+            top: 30px;
+            right: 80px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .t-line {
+            width: 30px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .t-line.active {
+            background: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="tech-lines">
+            <div class="t-line active"></div>
+            <div class="t-line active"></div>
+            <div class="t-line"></div>
+        </div>
+
+        <div class="header-section">
+            <span class="section-tag">[SCHOLARLY_TEXT_OPTIMIZER]</span>
+            <h1 class="main-title">AI IN <span class="title-accent">SCHOLARLY WRITING</span></h1>
+            <p class="subtitle">Implementing neural refinement protocols for high-fidelity academic communication and
+                synthesis.</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="cards-grid">
+                <div class="writing-card theme-blue">
+                    <div class="card-icon">
+                        <i class="fas fa-glasses"></i>
+                    </div>
+                    <div class="card-title">Precision Auditing</div>
+                    <p class="card-desc">Protocol: Refine domain-specific language for extreme precision and high-value
+                        academic tone alignment.</p>
+                </div>
+                <div class="writing-card theme-purple">
+                    <div class="card-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div class="card-title">Logic Structuring</div>
+                    <p class="card-desc">Heuristics: Re-architect objective arguments and logical flow vectors for
+                        maximum impact.</p>
+                </div>
+                <div class="writing-card theme-cyan">
+                    <div class="card-icon">
+                        <i class="fas fa-file-waveform"></i>
+                    </div>
+                    <div class="card-title">Abstract Synthesis</div>
+                    <p class="card-desc">Automation: Generate high-density summaries of experimental findings and
+                        theoretical contributions.</p>
+                </div>
+                <div class="writing-card theme-indigo">
+                    <div class="card-icon">
+                        <i class="fas fa-pen-nib"></i>
+                    </div>
+                    <div class="card-title">Lexical Expansion</div>
+                    <p class="card-desc">Optimization: Elevate technical vocabulary and improve cross-domain semantic
+                        readability.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <i class="fas fa-shield-virus warning-icon"></i>
+                <span class="warning-text">CRITICAL: Mandatory manual verification of citations and factual matrices
+                    required.</span>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 25%; background-color: #FFF; box-shadow: 0 0 20px #FFF;"></div>
+            <div style="width: 25%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
+            <div style="width: 25%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+            <div style="width: 25%; background-color: var(--indigo); box-shadow: 0 0 20px var(--indigo);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

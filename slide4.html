@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Session Objectives</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 0, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(255, 0, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .header-section {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--magenta);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 56px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(255, 0, 255, 0.5), -2px -2px 0px rgba(0, 240, 255, 0.5);
+        }
+
+        .title-accent {
+            color: var(--cyan);
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #94A3B8;
+            margin-top: 16px;
+            max-width: 800px;
+            border-left: 3px solid var(--purple);
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 40px 80px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            width: 100%
+        }
+
+        .cards-grid-bottom {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            width: 100%;
+            margin-top: 24px;
+            padding: 0 160px
+        }
+
+        .resp-card {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 28px 24px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 200px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .resp-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--magenta);
+            background-color: rgba(255, 0, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            background: rgba(255, 0, 255, 0.1);
+            color: var(--magenta);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+        }
+
+        .resp-card:nth-child(even) .card-icon {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--cyan);
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 19px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        .glitch-bar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--magenta), var(--cyan));
+            box-shadow: 0 0 15px var(--magenta);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="header-section">
+            <span class="section-tag">Learning Goals</span>
+            <h1 class="main-title">SESSION <span class="title-accent">OBJECTIVES</span> <span
+                    style="font-size: 24px; color: var(--magenta); opacity: 0.6;">[v1.0]</span></h1>
+            <p class="subtitle">By the end of this session, participants will master the following competencies.</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="cards-grid">
+                <div class="resp-card">
+                    <div class="glitch-bar"></div>
+                    <div class="card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="card-title">Understand AI's Role</div>
+                    <p class="card-desc">Grasp how AI functions as an intellectual partner in academic contexts.</p>
+                </div>
+                <div class="resp-card">
+                    <div class="glitch-bar" style="background: var(--cyan); box-shadow: 0 0 15px var(--cyan);"></div>
+                    <div class="card-icon">
+                        <i class="fas fa-scale-balanced"></i>
+                    </div>
+                    <div class="card-title">Distinguish Approaches</div>
+                    <p class="card-desc">Differentiate automation from augmentation in academic work.</p>
+                </div>
+                <div class="resp-card">
+                    <div class="glitch-bar"></div>
+                    <div class="card-icon">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="card-title">Prompting Strategies</div>
+                    <p class="card-desc">Learn effective techniques for engaging with AI systems.</p>
+                </div>
+            </div>
+            <div class="cards-grid-bottom">
+                <div class="resp-card">
+                    <div class="glitch-bar" style="background: var(--purple); box-shadow: 0 0 15px var(--purple);">
+                    </div>
+                    <div class="card-icon"
+                        style="color: var(--purple); border-color: var(--purple); box-shadow: 0 0 15px rgba(124, 58, 237, 0.2);">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="card-title">Research Workflows</div>
+                    <p class="card-desc">Explore AI-enabled processes for scholarly research and discovery.</p>
+                </div>
+                <div class="resp-card">
+                    <div class="glitch-bar" style="background: var(--cyan); box-shadow: 0 0 15px var(--cyan);"></div>
+                    <div class="card-icon">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div class="card-title">Ethical Reflection</div>
+                    <p class="card-desc">Consider ethical implications and responsible AI adoption practices.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Progress -->
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 40%; background-color: var(--magenta); box-shadow: 0 0 20px var(--magenta);"></div>
+            <div style="width: 30%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
+            <div style="width: 30%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI and the Flipped Classroom</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            margin: 0;
+            color: #fff;
+        }
+
+        /* Container */
+        .slide-container {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 20px;
+        }
+
+        /* Background grid */
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(1000px) rotateX(15deg);
+            opacity: 0.3;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(28px, 5vw, 52px);
+            font-weight: 800;
+            text-shadow: 2px 2px 0px rgba(0, 240, 255, 0.5);
+        }
+
+        .header-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--cyan);
+            font-size: 16px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(var(--purple), var(--cyan));
+            transform: translateX(-50%);
+        }
+
+        /* Timeline Item */
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 40px;
+        }
+
+        .timeline-item .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            border-left: 5px solid currentColor;
+            transition: 0.3s ease;
+        }
+
+        .timeline-item .card:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* Left side */
+        .timeline-item.left {
+            left: 0;
+            text-align: right;
+        }
+
+        /* Right side */
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        /* Node */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            border: 4px solid currentColor;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .timeline-item.left::after {
+            right: -10px;
+        }
+
+        .timeline-item.right::after {
+            left: -10px;
+        }
+
+        /* Card content */
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .card-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-list li {
+            font-size: 14px;
+            color: #94A3B8;
+            margin-bottom: 8px;
+        }
+
+        .theme-purple {
+            color: var(--purple);
+        }
+
+        .theme-cyan {
+            color: var(--cyan);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+
+            .timeline::before {
+                left: 8px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 40px;
+                padding-right: 20px;
+                margin-bottom: 40px;
+            }
+
+            .timeline-item.left,
+            .timeline-item.right {
+                left: 0;
+                text-align: left;
+            }
+
+            .timeline-item::after {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+
+        <div class="header">
+            <h1 class="header-title">AI and the Flipped Classroom</h1>
+            <p class="header-subtitle">
+                Optimizing pedagogical flow through high-frequency neural prep cycles.
+            </p>
+        </div>
+
+        <div class="timeline">
+
+            <!-- Step 1 -->
+            <div class="timeline-item left theme-purple">
+                <div class="card">
+                    <h3 class="card-title">01 – Pre-Session [OFF-LINE]</h3>
+                    <ul class="card-list">
+                        <li>AI-Synthesized Knowledge Maps</li>
+                        <li>Automated Explanation Vectors</li>
+                        <li>Interactive Dynamic Resources</li>
+                        <li>Personalized Insight Paths</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-item right theme-cyan">
+                <div class="card">
+                    <h3 class="card-title">02 – Active-Session [LIVE]</h3>
+                    <ul class="card-list">
+                        <li>Facilitated Logic Engagement</li>
+                        <li>Critical Interaction Architectures</li>
+                        <li>Collaborative Problem Solving</li>
+                        <li>AI-Optimized Query Response</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

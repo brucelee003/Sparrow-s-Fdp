@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Limitations of AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --red: #FF3131;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 49, 49, 0.2);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(255, 49, 49, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 49, 49, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(1000px) rotateX(10deg);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .header-section {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+            text-shadow: 0 0 10px rgba(255, 49, 49, 0.5);
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 56px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(255, 49, 49, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #94A3B8;
+            margin-top: 16px;
+            max-width: 850px;
+            border-left: 3px solid var(--red);
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 40px 80px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%
+        }
+
+        .limitation-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 32px 24px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 49, 49, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 280px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .limitation-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--red);
+            background-color: rgba(255, 49, 49, 0.05);
+            box-shadow: 0 0 30px rgba(255, 49, 49, 0.15);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+            background: rgba(255, 49, 49, 0.1);
+            color: var(--red);
+            border: 1px solid rgba(255, 49, 49, 0.3);
+            box-shadow: 0 0 15px rgba(255, 49, 49, 0.2);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 19px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            letter-spacing: 0.5px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.6;
+        }
+
+        .warning-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--red);
+            font-weight: 700;
+            opacity: 0.6;
+            letter-spacing: 1px;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 49, 49, 0.1);
+            z-index: 100;
+            animation: scan 10s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Glitch effect corners */
+        .corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            z-index: 30;
+        }
+
+        .tr {
+            top: 10px;
+            right: 10px;
+            border-top: 2px solid var(--red);
+            border-right: 2px solid var(--red);
+        }
+
+        .bl {
+            bottom: 10px;
+            left: 10px;
+            border-bottom: 2px solid var(--red);
+            border-left: 2px solid var(--red);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="header-section">
+            <span class="section-tag">[SYSTEM_CONSTRAINTS]</span>
+            <h1 class="main-title">LIMITATIONS OF AI</h1>
+            <p class="subtitle">Identifying architectural boundaries and statistical pitfalls within neural processing
+                environments.</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="cards-grid">
+                <div class="limitation-card">
+                    <div class="corner tr"></div>
+                    <div class="card-icon">
+                        <i class="fas fa-brain-circuit"></i>
+                    </div>
+                    <div class="card-title">No Semantic Understanding</div>
+                    <p class="card-desc">AI processes lexical patterns without genuine comprehension or biological-level
+                        consciousness.</p>
+                    <div class="warning-badge">ERR_01</div>
+                </div>
+                <div class="limitation-card">
+                    <div class="corner tr"></div>
+                    <div class="card-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <div class="card-title">Pattern-Based Prediction</div>
+                    <p class="card-desc">Outputs are strictly statistical guesses based on past weights, not reasoned
+                        logical insights.</p>
+                    <div class="warning-badge">ERR_02</div>
+                </div>
+                <div class="limitation-card">
+                    <div class="corner tr"></div>
+                    <div class="card-icon">
+                        <i class="fas fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="card-title">Confident Hallucinations</div>
+                    <p class="card-desc">LLMs generate high-confidence strings that may be factually decoupled from
+                        objective reality.</p>
+                    <div class="warning-badge">ERR_03</div>
+                </div>
+                <div class="limitation-card">
+                    <div class="corner tr"></div>
+                    <div class="card-icon">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <div class="card-title">Zero Context Awareness</div>
+                    <p class="card-desc">Lacks situated situational understanding, cultural nuance, and physical
+                        real-world experience.</p>
+                    <div class="warning-badge">ERR_04</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danger Bar -->
+        <div
+            style="position: absolute; bottom: 0; width: 100%; height: 8px; background-color: var(--red); box-shadow: 0 0 20px var(--red); opacity: 0.4;">
+        </div>
+        <div
+            style="position: absolute; bottom: 0; width: 100%; height: 8px; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.5) 10px, rgba(0,0,0,0.5) 20px); z-index: 51;">
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI in Research: Literature Review</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --magenta: #FF00FF;
+            --cyan: #00F0FF;
+            --purple: #7C3AED;
+            --indigo: #6366F1;
+            --bg-dark: #050505;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(1000px) rotateX(20deg);
+            z-index: 0;
+        }
+
+        .header-section {
+            padding: 60px 80px 20px 80px;
+            position: relative;
+            z-index: 10
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 52px;
+            font-weight: 800;
+            color: #FFF;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 2px 2px 0px rgba(124, 58, 237, 0.5);
+        }
+
+        .title-accent {
+            color: var(--cyan);
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #94A3B8;
+            margin-top: 16px;
+            max-width: 900px;
+            border-left: 3px solid var(--purple);
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 20px 80px 40px 80px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%
+        }
+
+        .research-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 32px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 280px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .research-card:hover {
+            transform: translateY(-8px);
+            border-color: currentColor;
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+        }
+
+        .theme-blue {
+            color: #FFF;
+        }
+
+        .theme-purple {
+            color: var(--purple);
+        }
+
+        .theme-cyan {
+            color: var(--cyan);
+        }
+
+        .theme-indigo {
+            color: var(--indigo);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.1);
+            z-index: 100;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Data stream effect */
+        .data-stream {
+            position: absolute;
+            top: 40px;
+            right: 80px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--cyan);
+            opacity: 0.2;
+            text-align: right;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide-container">
+        <div class="bg-grid"></div>
+        <div class="scanline"></div>
+
+        <div class="data-stream">
+            FETCHING_RESEARCH_METADATA...<br>
+            ANALYZING_CITATION_VECTORS...<br>
+            EXTRACTING_SEMANTIC_THEMES...<br>
+            COMPILING_KNOWLEDGE_BASE...
+        </div>
+
+        <div class="header-section">
+            <span class="section-tag">[NEURAL_KNOWLEDGE_MINING]</span>
+            <h1 class="main-title">AI IN <span class="title-accent">RESEARCH</span></h1>
+            <p class="subtitle">Implementing high-frequency synthesis and literature auditing within research workflows.
+            </p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="cards-grid">
+                <div class="research-card theme-blue">
+                    <div class="card-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="card-title">Document Synthesis</div>
+                    <p class="card-desc">Protocol: Extract critical insight clusters from complex academic datasets with
+                        99% lexical efficiency.</p>
+                </div>
+                <div class="research-card theme-purple">
+                    <div class="card-icon">
+                        <i class="fas fa-code-compare"></i>
+                    </div>
+                    <div class="card-title">Finding Auditing</div>
+                    <p class="card-desc">Objective: Identify parity and divergence patterns across distributed
+                        peer-reviewed studies.</p>
+                </div>
+                <div class="research-card theme-cyan">
+                    <div class="card-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <div class="card-title">Lexical Extraction</div>
+                    <p class="card-desc">Theme Mapping: Discover emerging topics and hidden semantic patterns within
+                        global research archives.</p>
+                </div>
+                <div class="research-card theme-indigo">
+                    <div class="card-icon">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="card-title">Predictive Trends</div>
+                    <p class="card-desc">Trajectory Mining: Track evolution of research fields and optimize frontier
+                        knowledge acquisition paths.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
+            <div style="width: 25%; background-color: #FFF; box-shadow: 0 0 20px #FFF;"></div>
+            <div style="width: 25%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
+            <div style="width: 25%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
+            <div style="width: 25%; background-color: var(--indigo); box-shadow: 0 0 20px var(--indigo);"></div>
+        </div>
+    </div>
+</body>
+
+</html>
