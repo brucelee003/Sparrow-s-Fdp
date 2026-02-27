@@ -1,331 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Key Concept: Collaborative Intelligence</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet" />
-    <style>
-        :root {
-            --magenta: #FF00FF;
-            --cyan: #00F0FF;
-            --purple: #7C3AED;
-            --bg-dark: #050505;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Collaborative Intelligence</title>
 
-        body {
-            font-family: "Inter", sans-serif;
-            background-color: var(--bg-dark);
-            margin: 0;
-            padding: 0;
-            color: #ffffff;
-        }
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
 
-        .slide-container {
-            width: 1280px;
-            height: 720px;
-            position: relative;
-            background-color: var(--bg-dark);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid rgba(255, 0, 255, 0.1);
-        }
+<style>
+:root {
+    --magenta: #FF00FF;
+    --cyan: #00F0FF;
+    --purple: #7C3AED;
+    --bg-dark: #050505;
+}
 
-        .bg-grid {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background-image:
-                linear-gradient(rgba(255, 0, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 0, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(1000px) rotateX(20deg);
-            z-index: 0;
-            opacity: 0.3;
-        }
+body {
+    margin: 0;
+    background: var(--bg-dark);
+    font-family: "Inter", sans-serif;
+    color: #fff;
+}
 
-        .header {
-            padding: 60px 80px 20px 80px;
-            z-index: 10
-        }
+/* Container */
+.slide-container {
+    min-height: 100vh;
+    padding: 60px 5vw;
+    position: relative;
+    overflow: hidden;
+}
 
-        .header-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 52px;
-            font-weight: 800;
-            color: #FFF;
-            margin-bottom: 12px;
-            text-shadow: 2px 2px 0px rgba(0, 240, 255, 0.5), -2px -2px 0px rgba(255, 0, 255, 0.5);
-        }
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 80px;
+}
 
-        .header-subtitle {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 20px;
-            color: var(--cyan);
-            font-weight: 400;
-            letter-spacing: 1px;
-        }
+.header-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    text-shadow: 2px 2px 0px rgba(0,240,255,0.5),
+                 -2px -2px 0px rgba(255,0,255,0.5);
+}
 
-        .timeline-wrapper {
-            flex: 1;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
+.header-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(14px, 2vw, 20px);
+    color: var(--cyan);
+}
 
-        .timeline-axis {
-            position: absolute;
-            top: 50%;
-            left: 150px;
-            right: 150px;
-            height: 2px;
-            background-color: rgba(255, 255, 255, 0.1);
-            z-index: 1
-        }
+/* Timeline wrapper */
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    max-width: 1200px;
+    margin: auto;
+}
 
-        .axis-segment {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            box-shadow: 0 0 15px currentColor;
-        }
+/* Horizontal line */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right,
+        var(--cyan),
+        var(--purple),
+        var(--magenta));
+}
 
-        .timeline-item {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 260px
-        }
+/* Timeline item */
+.timeline-item {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
 
-        .node {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: var(--bg-dark);
-            border: 2px solid currentColor;
-            z-index: 2;
-            position: relative;
-            box-shadow: 0 0 15px currentColor;
-        }
+/* Node */
+.node {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg-dark);
+    border: 3px solid currentColor;
+    margin: 50px auto 20px auto;
+    box-shadow: 0 0 12px currentColor;
+}
 
-        .connector {
-            width: 1px;
-            height: 80px;
-            background-color: currentColor;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-            opacity: 0.5;
-        }
+/* Card */
+.card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 40px 24px 28px 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    transition: 0.3s ease;
+}
 
-        .card {
-            background-color: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 32px 24px;
-            width: 100%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+.card:hover {
+    transform: translateY(-6px);
+    border-color: currentColor;
+}
 
-        .card:hover {
-            transform: translateX(-50%) translateY(-10px);
-            background-color: rgba(255, 255, 255, 0.06);
-            border-color: currentColor;
-        }
+/* Step number */
+.step-number {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 800;
+    opacity: 0.12;
+    pointer-events: none;
+}
 
-        .pos-top .connector {
-            bottom: 12px;
-        }
+/* Title */
+.card-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(16px, 1.5vw, 20px);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
 
-        .pos-top .card {
-            bottom: 80px;
-        }
+/* Description */
+.card-desc {
+    font-size: clamp(13px, 1vw, 15px);
+    color: #94A3B8;
+    line-height: 1.6;
+}
 
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            font-size: 22px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
+.theme-cyan { color: var(--cyan); }
+.theme-purple { color: var(--purple); }
+.theme-magenta { color: var(--magenta); }
 
-        .card-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 20px;
-            font-weight: 700;
-            color: #FFF;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
 
-        .card-desc {
-            font-size: 14px;
-            color: #94A3B8;
-            line-height: 1.6;
-        }
+    .timeline {
+        flex-direction: column;
+        gap: 60px;
+    }
 
-        .step-number {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 32px;
-            font-weight: 800;
-            color: currentColor;
-            opacity: 0.15;
-            z-index: 0
-        }
+    .timeline::before {
+        display: none;
+    }
 
-        .theme-cyan {
-            color: var(--cyan);
-        }
-
-        .theme-purple {
-            color: var(--purple);
-        }
-
-        .theme-magenta {
-            color: var(--magenta);
-        }
-
-        .scanline {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: rgba(0, 240, 255, 0.1);
-            z-index: 100;
-            animation: scan 8s linear infinite;
-        }
-
-        @keyframes scan {
-            from {
-                top: 0;
-            }
-
-            to {
-                top: 100%;
-            }
-        }
-
-        /* Glitch effect corners */
-        .corner {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            z-index: 30;
-        }
-
-        .tl {
-            top: 15px;
-            left: 15px;
-            border-top: 2px solid currentColor;
-            border-left: 2px solid currentColor;
-        }
-    </style>
+    .node {
+        margin: 0 auto 20px auto;
+    }
+}
+</style>
 </head>
 
 <body>
-    <div class="slide-container">
-        <div class="bg-grid"></div>
-        <div class="scanline"></div>
 
-        <div class="header">
-            <h1 class="header-title">Collaborative Intelligence</h1>
-            <p class="header-subtitle">Neural Protocol v2.0: Human-AI Partnership Lifecycle</p>
-        </div>
+<div class="slide-container">
 
-        <div class="timeline-wrapper">
-            <div class="timeline-axis">
-                <div class="axis-segment"
-                    style="left: 0; width: 33%; background-color: var(--cyan); color: var(--cyan);"></div>
-                <div class="axis-segment"
-                    style="left: 33%; width: 33%; background-color: var(--purple); color: var(--purple);"></div>
-                <div class="axis-segment"
-                    style="left: 66%; width: 34%; background-color: var(--magenta); color: var(--magenta);"></div>
-            </div>
-
-            <div class="timeline-item pos-top theme-cyan" style="left: 16%">
-                <div class="connector"></div>
-                <div class="node"></div>
-                <div class="card">
-                    <div class="corner tl"></div>
-                    <span class="step-number">01</span>
-                    <div class="card-icon">
-                        <i class="fas fa-microchip"></i>
-                    </div>
-                    <p class="card-title">AI Assists</p>
-                    <p class="card-desc">Generates high-bandwidth hypotheses, provides data-driven insights, and
-                        initializes conceptual frameworks.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item pos-top theme-purple" style="left: 50%">
-                <div class="connector"></div>
-                <div class="node"></div>
-                <div class="card">
-                    <div class="corner tl"></div>
-                    <span class="step-number">02</span>
-                    <div class="card-icon">
-                        <i class="fas fa-search-nodes"></i>
-                    </div>
-                    <p class="card-title">Humans Verify</p>
-                    <p class="card-desc">Critically evaluates neural outputs, performs empirical audits, and validates
-                        generated recommendations.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item pos-top theme-magenta" style="left: 84%">
-                <div class="connector"></div>
-                <div class="node"></div>
-                <div class="card">
-                    <div class="corner tl"></div>
-                    <span class="step-number">03</span>
-                    <div class="card-icon">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
-                    <p class="card-title">Humans Decide</p>
-                    <p class="card-desc">Executes final administrative judgment, enforces ethical protocols, and retains
-                        sovereign ownership.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer Sync Progress -->
-        <div style="position: absolute; bottom: 0; width: 100%; height: 8px; display: flex; z-index: 50;">
-            <div style="width: 33.33%; background-color: var(--cyan); box-shadow: 0 0 20px var(--cyan);"></div>
-            <div style="width: 33.33%; background-color: var(--purple); box-shadow: 0 0 20px var(--purple);"></div>
-            <div style="width: 33.34%; background-color: var(--magenta); box-shadow: 0 0 20px var(--magenta);"></div>
-        </div>
+    <div class="header">
+        <h1 class="header-title">Collaborative Intelligence</h1>
+        <p class="header-subtitle">
+            Neural Protocol v2.0: Human-AI Partnership Lifecycle
+        </p>
     </div>
-</body>
 
+    <div class="timeline">
+
+        <!-- 1 -->
+        <div class="timeline-item theme-cyan">
+            <div class="node"></div>
+            <div class="card">
+                <span class="step-number">01</span>
+                <h3 class="card-title">AI Assists</h3>
+                <p class="card-desc">
+                    Generates high-bandwidth hypotheses, provides data-driven insights,
+                    and initializes conceptual frameworks.
+                </p>
+            </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="timeline-item theme-purple">
+            <div class="node"></div>
+            <div class="card">
+                <span class="step-number">02</span>
+                <h3 class="card-title">Humans Verify</h3>
+                <p class="card-desc">
+                    Critically evaluates neural outputs, performs empirical audits,
+                    and validates generated recommendations.
+                </p>
+            </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="timeline-item theme-magenta">
+            <div class="node"></div>
+            <div class="card">
+                <span class="step-number">03</span>
+                <h3 class="card-title">Humans Decide</h3>
+                <p class="card-desc">
+                    Executes final administrative judgment, enforces ethical protocols,
+                    and retains sovereign ownership.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
 </html>
